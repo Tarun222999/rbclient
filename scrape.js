@@ -1,9 +1,13 @@
 import puppeteer from 'puppeteer';
 export default async function scrapeNews(pageNumber) {
-    const browserOptions = {
-        headless: 'old'
-    };
-    const browser = await puppeteer.launch(browserOptions);
+  
+   const browser = await puppeteer.launch({
+
+            executablePath:
+                process.env.NODE_ENV === "production"
+                    ? process.env.PUPPETEER_EXECUTABLE_PATH
+                    : puppeteer.executablePath(),
+        });
     const page = await browser.newPage();
     await page.goto(`https://news.ycombinator.com/news?p=${pageNumber}`);
 
